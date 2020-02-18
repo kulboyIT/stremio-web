@@ -7,6 +7,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const pachageJson = require('./package.json');
+const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 
 module.exports = (env, argv) => ({
     entry: './src/index.js',
@@ -106,7 +107,7 @@ module.exports = (env, argv) => ({
             'stremio-video': path.resolve(__dirname, 'src/video')
         }
     },
-    devtool: 'source-map', 
+    devtool: 'source-map',
     devServer: {
         host: '0.0.0.0',
         hot: false,
@@ -153,6 +154,12 @@ module.exports = (env, argv) => ({
             verbose: true,
             cleanOnceBeforeBuildPatterns: [],
             cleanAfterEveryBuildPatterns: ['./main.js', './main.css']
+        }),
+        new SentryWebpackPlugin({
+            include: '.',
+            ignoreFile: '.gitignore',
+            ignore: ['node_modules', 'webpack.config.js'],
+            configFile: 'sentry.properties'
         })
     ]
 });

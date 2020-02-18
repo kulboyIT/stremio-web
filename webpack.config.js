@@ -106,6 +106,7 @@ module.exports = (env, argv) => ({
             'stremio-video': path.resolve(__dirname, 'src/video')
         }
     },
+    devtool: 'source-map', 
     devServer: {
         host: '0.0.0.0',
         hot: false,
@@ -125,7 +126,8 @@ module.exports = (env, argv) => ({
                         beautify: false,
                         wrap_iife: true
                     }
-                }
+                },
+                sourceMap: true
             })
         ]
     },

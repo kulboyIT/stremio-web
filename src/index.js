@@ -1,7 +1,7 @@
 // Copyright (C) 2017-2020 Smart code 203358507
 
 if (typeof process.env.SENTRY_DSN === 'string') {
-    const Sentry = require('@sentry/browser');
+    const Sentry = require('@sentry/react');
     Sentry.init({ dsn: process.env.SENTRY_DSN });
 }
 

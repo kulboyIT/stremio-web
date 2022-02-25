@@ -1,7 +1,7 @@
 // Copyright (C) 2017-2020 Smart code 203358507
 
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
+require('react-app-polyfill/ie11');
+require('react-app-polyfill/stable');
 
 if (typeof process.env.SENTRY_DSN === 'string') {
     const Sentry = require('@sentry/browser');

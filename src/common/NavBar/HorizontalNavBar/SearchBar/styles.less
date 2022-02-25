@@ -3,11 +3,11 @@
 @import (reference) '~@stremio/stremio-colors/less/stremio-colors.less';
 
 .search-bar-container {
-    --search-bar-size: calc(var(--horizontal-nav-bar-size) - 1.2rem);
+    @search-bar-size: calc(var(--horizontal-nav-bar-size) - 1.2rem);
     display: flex;
     flex-direction: row;
-    height: var(--search-bar-size);
-    border-radius: var(--search-bar-size);
+    height: @search-bar-size;
+    border-radius: @search-bar-size;
     background-color: @color-background-light2;
 
     &:hover {
@@ -38,8 +38,8 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        width: var(--search-bar-size);
-        height: var(--search-bar-size);
+        width: @search-bar-size;
+        height: @search-bar-size;
 
         &:hover {
             .icon {

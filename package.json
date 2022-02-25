@@ -55,6 +55,7 @@
         "postcss-grid-flex": "github:tymmesyde/postcss-grid-flex",
         "postcss-loader": "6.2.0",
         "postcss-preset-env": "^7.4.1",
+        "react-app-polyfill": "^3.0.0",
         "readdirp": "3.6.0",
         "terser-webpack-plugin": "5.2.4",
         "webpack": "5.61.0",

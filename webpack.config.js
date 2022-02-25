@@ -5,6 +5,7 @@ const { execSync } = require('child_process');
 const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const postcssGridFlex = require('postcss-grid-flex');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -12,10 +13,12 @@ const pachageJson = require('./package.json');
 
 const COMMIT_HASH = execSync('git rev-parse HEAD').toString().trim();
 
+let cachedCustomProperties = {};
+
 module.exports = (env, argv) => ({
     mode: argv.mode,
     devtool: argv.mode === 'production' ? 'source-map' : 'eval-source-map',
-    entry: './src/index.js',
+    entry: ['whatwg-fetch', './src/index.js'],
     output: {
         path: path.join(__dirname, 'build'),
         filename: `${COMMIT_HASH}/scripts/[name].js`
@@ -24,15 +27,37 @@ module.exports = (env, argv) => ({
         rules: [
             {
                 test: /\.js$/,
-                exclude: /node_modules/,
+                include: /node_modules\/(?!@stremio\/stremio-core-web)/,
                 use: {
                     loader: 'babel-loader',
                     options: {
                         presets: [
                             '@babel/preset-env',
+                        ]
+                    }
+                }
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: [
+                            [
+                                '@babel/preset-env', {
+                                    useBuiltIns: 'usage',
+                                    corejs: 3
+                                }
+                            ],
                             '@babel/preset-react'
                         ],
                         plugins: [
+                            [
+                                '@babel/plugin-transform-modules-commonjs', {
+                                    allowTopLevelThis: true
+                                }
+                            ],
                             '@babel/plugin-proposal-class-properties',
                             '@babel/plugin-proposal-object-rest-spread'
                         ]
@@ -65,6 +90,18 @@ module.exports = (env, argv) => ({
                         options: {
                             postcssOptions: {
                                 plugins: [
+                                    postcssGridFlex(),
+                                    [
+                                        'postcss-preset-env', {
+                                            exportTo: variables => {
+                                                cachedCustomProperties = {
+                                                    ...cachedCustomProperties,
+                                                    ...variables
+                                                }
+                                            },
+                                            importFrom: () => cachedCustomProperties
+                                        }
+                                    ],
                                     require('cssnano')({
                                         preset: [
                                             'advanced',
@@ -72,8 +109,8 @@ module.exports = (env, argv) => ({
                                                 autoprefixer: {
                                                     add: true,
                                                     remove: true,
-                                                    flexbox: false,
-                                                    grid: false
+                                                    flexbox: true,
+                                                    grid: 'autoplace'
                                                 },
                                                 cssDeclarationSorter: true,
                                                 calc: false,
@@ -95,7 +132,7 @@ module.exports = (env, argv) => ({
                                                 zindex: false
                                             }
                                         ]
-                                    })
+                                    }),
                                 ]
                             }
                         }

@@ -69,8 +69,8 @@ const Discover = ({ urlParams, queryParams }) => {
     }, [discover.selected]);
     const metaItemsContainerRef = React.useRef();
     React.useEffect(() => {
-        if (discover.catalog?.content.type === 'Loading' && metaItemsContainerRef?.current?.scrollTo) {
-            metaItemsContainerRef.current.scrollTo(0, 0);
+        if (discover.catalog?.content.type === 'Loading') {
+            metaItemsContainerRef.current.scrollTop = 0;
         }
     }, [discover.catalog]);
     return (

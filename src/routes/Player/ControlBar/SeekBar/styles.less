@@ -1,6 +1,7 @@
 // Copyright (C) 2017-2020 Smart code 203358507
 
 @import (reference) '~@stremio/stremio-colors/less/stremio-colors.less';
+@import (reference) '~stremio/common/Slider/styles.less';
 
 :import('~stremio/common/Slider/styles.less') {
     slider-track-before: track-before;
@@ -45,7 +46,7 @@
     .slider {
         flex: 1;
         align-self: stretch;
-        margin: 0 var(--thumb-size);
+        margin: 0 @thumb-size;
 
         .slider-thumb {
             fill: transparent;

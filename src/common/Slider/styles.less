@@ -2,6 +2,9 @@
 
 @import (reference) '~@stremio/stremio-colors/less/stremio-colors.less';
 
+@track-size: 0.4rem;
+@thumb-size: 1.3rem;
+
 html.active-slider-within {
     cursor: grabbing;
 
@@ -53,20 +56,20 @@ html.active-slider-within {
 
     .track {
         flex: 1;
-        height: var(--track-size);
+        height: @track-size;
         background-color: @color-primary-dark3;
     }
 
     .track-before {
         flex: none;
-        height: var(--track-size);
+        height: @track-size;
         background-color: @color-primary-light3;
     }
 
     .thumb {
         flex: none;
-        width: var(--thumb-size);
-        height: var(--thumb-size);
+        width: @thumb-size;
+        height: @thumb-size;
         transform: translateX(-50%);
         fill: @color-surface-light5;
     }
